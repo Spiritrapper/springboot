@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 
 <head>
 
@@ -28,11 +29,13 @@ min-height : 300px;
 }
 </style>
 <body>
+	<!-- 파일 업데이트를 위해서는 enctype="multipart/form-data"-->
 	<div class="layout">
-	<form action="/board/writepro" method="post">
+	<form th:action="@{/board/writepro}" method="post" enctype="multipart/form-data">
 		<input name=title type="text">
 		<textarea name="content"></textarea>
-		<button type="submit">작성</button>
+		<input type="file" name=file>
+		<button type="submit">작성!</button>
 	</form>
 	</div>
 <p>HTML5<p>

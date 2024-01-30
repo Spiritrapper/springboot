@@ -34,15 +34,29 @@ min-height : 300px;
 	<tr>
 	<th>글번호</th>
 	<th>제목</th>
+	<th>조회수</th>
 	</tr>
 	</thead>
 	<tbody>
 	<tr th:each="board: ${List}">
 	<td th:text="${board.id}">1</td>
 	<td ><a th:text="${board.title}"  th:href="@{/board/view(id=${board.id})}">제목입니ㅏㄷ.</a></td>
+	<td th:text="${board.viewCount}"></td> 
 	</tr>
 	</tbody>
 	</table>
+	<!-- 굳이 태그로 감쌀 필요가없는 부분을 타임리프문법 사용할때 -->
+	<!-- Thymeleaf에서 제공하는 유틸리티인 #numbers를 사용해서 숫자 시퀀스를 생성 startPage가 1부터시작 -->
+	<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+	<!-- Pageable 객체에서의 페이지 번호는 0부터 시작하는 것이 일반적 0으로 하고 맵핑만  th:text=${page} 1부터 보이도록-->
+	<!-- a태그 내에 searchKeyword = ${param.searchKeyword} 넣어두면 변수값을 계속 가지고 가기때문에 계속 키워드검색한 페이지가 조회된다. -->
+		<a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page -1}, searchKeyword = ${param.searchKeyword})}" th:text=${page}></a>
+		<strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
+	</th:block>
+	<form th:action="@{/board/list}" method="get">
+	<input type="text" name="searchKeyword">
+	<button type="submit">검색</button>
+	</form>
 	</div>
 <p>HTML5<p>
 
